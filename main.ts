@@ -12,6 +12,11 @@ import { join } from "node:path";
 const ENTRY =
   "One star. Drifting away 3.8 cm a year — the slowest breakup in history, and it won't even text back.";
 
+// Gate: the scorer accepts 1–120 characters, a single line, non-blank.
+if ([...ENTRY].length < 1 || [...ENTRY].length > 120 || ENTRY.includes("\n") || ENTRY.trim().length === 0) {
+  throw new Error(`entry violates the 1–120 single-line gate (${[...ENTRY].length} chars)`);
+}
+
 const outDir = process.env.OUTPUT_DIR ?? "/output";
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "entry.txt"), ENTRY, "utf8");
